@@ -8,7 +8,7 @@ import { IndexService } from './index.service';
 import { ChaptersListService } from '../../components/chapters-list/chapters-list.service';
 import { ToolbarOptionService } from '../../components/toolbar-option/toolbar-option.service';
 import { CustomGridService } from '../../components/custom-grid/custom-grid.service';
-import { AppDataService, ContextMenuEventService, GamepadControllerService, GamepadEventService, HistoryService, KeyboardEventService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuControllerService, ContextMenuEventService, GamepadControllerService, GamepadEventService, HistoryService, KeyboardEventService } from 'src/app/library/public-api';
 import { LoadingCoverService } from '../../components/loading-cover/loading-cover.service';
 import { ReaderConfigService } from '../../components/reader-config/reader-config.service';
 import { ComicsDetailService } from '../../components/comics-detail/comics-detail.service';
@@ -64,6 +64,7 @@ export class IndexComponent {
     public Prompt: PromptService,
     public ReaderNavbarBarV2: ReaderNavbarBarV2Service,
     public SettingsNineGrid: SettingsNineGridService,
+    public ContextMenuController:ContextMenuControllerService,
     public RepliesPage: RepliesPageService
   ) {
     // this.SettingsNineGrid.open()
@@ -138,6 +139,16 @@ export class IndexComponent {
       }
     } else if ($event.code == "ShiftLeft") {
       this.key.shift = true;
+    }else if($event.key=="~"){
+      if($event.target&&($event.target as any).getAttribute('content_menu_key')){
+        // this.ContextMenuController.openContextMenu(event.target as any,0,0)
+        const node = $event.target as any;
+        this.ContextMenuController.openContextMenu(node, 0, 0,{
+          close:(node)=>{
+            node.focus();
+          }
+        })
+      }
     }
 
     $event.stopPropagation();
