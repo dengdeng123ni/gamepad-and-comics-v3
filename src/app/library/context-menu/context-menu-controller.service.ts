@@ -9,7 +9,7 @@ declare const window: any;
 export class ContextMenuControllerService {
   private handleRegion: string = '';
   private currentNode: HTMLElement | Element | null = null;
-
+  private _close: Function | null = null;
   constructor(
     private contextMenuEvent: ContextMenuEventService,
     private contextMenu: ContextMenuService
@@ -18,7 +18,12 @@ export class ContextMenuControllerService {
   }
 
   // 右键菜单打开
-  public openContextMenu(node: HTMLElement, x: number, y: number): void {
+  public openContextMenu(node: HTMLElement, x: number, y: number,
+    options?:{
+      close?:Function
+    }
+  ): void {
+    if(options.close) this._close=options.close;
     this.currentNode = node;
     const key = node.getAttribute('content_menu_key');
     if (!key) return
@@ -33,6 +38,9 @@ export class ContextMenuControllerService {
     document.body.setAttribute('locked_region', 'content_menu');
     this.contextMenu.open(menu, { x, y, key: key, value: value ?? "" });
   }
+
+
+
   // 扩容菜单方法
   public openMenu(node: HTMLElement | Element, x: number, y: number): void {
     this.currentNode = node;
@@ -103,6 +111,10 @@ export class ContextMenuControllerService {
 
     this.contextMenu.beforeClosed().subscribe((command: any) => {
       (this.currentNode as any).setAttribute('content_menu_select', 'false');
+      if(this._close) {
+        this._close(this.currentNode);
+        this._close=null;
+      }
       if (document.querySelector('body')!.getAttribute('locked_region') == "content_menu") document.querySelector('body')!.setAttribute('locked_region', this.handleRegion);
       if (command.key) {
         if (this.contextMenuEvent.closeEvent[command.key]) this.contextMenuEvent.closeEvent[command.key](command);

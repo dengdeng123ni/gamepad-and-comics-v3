@@ -38,6 +38,7 @@ export const scaleFadeAnimation = trigger('scaleFadeAnimation', [
 })
 export class IndexComponent {
   is_exist_image = false;
+  is_destroy=false;
   constructor(
     public current: CurrentService,
     public data: DataService,
@@ -74,6 +75,10 @@ export class IndexComponent {
         this.KeyboardToolbar.isToggle()
       }
     })
+    // setInterval(()=>{
+    //   console.log(document.activeElement);
+
+    // },1000)
     // this.KeyboardEvent.registerGlobalEvent({
     //   "p": () => this.KeyboardToolbar.isToggle(),
 
@@ -112,7 +117,6 @@ export class IndexComponent {
     shift: false
   }
   onKeyDown($event) {
-    console.log($event);
 
     if ($event.code == "Space") {
       this.GamepadController.device("A")
@@ -148,10 +152,30 @@ export class IndexComponent {
     this.current.on$.next($event)
   }
   ngOnDestroy() {
+    this.is_destroy=true;
     this.current.close();
   }
   ngAfterViewInit() {
-    (document.querySelector("[region=page_reader]") as any).focus();
+
+    let config2 = {
+      attributes: true, //目标节点的属性变化
+      childList: false, //目标节点的子节点的新增和删除
+      characterData: false, //如果目标节点为characterData节点(一种抽象接口,具体可以为文本节点,注释节点,以及处理指令节点)时,也要观察该节点的文本内容是否发生变化
+      subtree: false, //目标节点所有后代节点的attributes、childList、characterData变化
+    };
+
+    let observe2 = new MutationObserver(() => {
+      if(document.activeElement.getAttribute("locked_region")=="reader"){
+        if(this.is_destroy){
+          observe2.disconnect();
+        }else{
+          (document.querySelector("[region=page_reader]") as any).focus();
+        }
+
+      }
+    });
+    observe2.observe(document.body, config2);
+
     const observer = new MutationObserver((mutationsList, observer) => {
       if (document.querySelector("img")) {
         this.is_exist_image = true;

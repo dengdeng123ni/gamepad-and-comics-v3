@@ -86,6 +86,21 @@ export class AppComponent {
   keydown = new Subject()
   @HostListener('window:keydown', ['$event'])
   handleKeyDown = (event: KeyboardEvent) => {
+    if(event.key=="~"){
+      if(event.target&&(event.target as any).getAttribute('content_menu_key')){
+        // this.ContextMenuController.openContextMenu(event.target as any,0,0)
+        const node = event.target as any;
+        const currentPosition =node.getBoundingClientRect();
+        let x = parseInt(currentPosition.x + currentPosition.width * 0.7)
+        let y = parseInt(currentPosition.y + currentPosition.height * 0.7)
+        this.ContextMenuController.openContextMenu(node, x, y,{
+          close:(node)=>{
+            node.focus();
+          }
+        })
+      }
+    }
+
     return true
     if (document.body.getAttribute('onkeyboard') == 'true') return true
     let key = "";
