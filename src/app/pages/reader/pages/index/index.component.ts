@@ -163,7 +163,7 @@ export class IndexComponent {
       characterData: false, //如果目标节点为characterData节点(一种抽象接口,具体可以为文本节点,注释节点,以及处理指令节点)时,也要观察该节点的文本内容是否发生变化
       subtree: false, //目标节点所有后代节点的attributes、childList、characterData变化
     };
-
+    (document.querySelector("[region=page_reader]") as any).focus();
     let observe2 = new MutationObserver(() => {
       if(document.activeElement.getAttribute("locked_region")=="reader"){
         if(this.is_destroy){

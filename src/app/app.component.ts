@@ -86,6 +86,8 @@ export class AppComponent {
   keydown = new Subject()
   @HostListener('window:keydown', ['$event'])
   handleKeyDown = (event: KeyboardEvent) => {
+    // console.log(event.target);
+
     if(event.key=="~"){
       if(event.target&&(event.target as any).getAttribute('content_menu_key')){
         // this.ContextMenuController.openContextMenu(event.target as any,0,0)
