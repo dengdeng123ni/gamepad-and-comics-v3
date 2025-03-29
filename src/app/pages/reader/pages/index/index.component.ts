@@ -8,7 +8,7 @@ import { IndexService } from './index.service';
 import { ChaptersListService } from '../../components/chapters-list/chapters-list.service';
 import { ToolbarOptionService } from '../../components/toolbar-option/toolbar-option.service';
 import { CustomGridService } from '../../components/custom-grid/custom-grid.service';
-import { AppDataService, ContextMenuEventService, GamepadEventService, HistoryService, KeyboardEventService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuEventService, GamepadControllerService, GamepadEventService, HistoryService, KeyboardEventService } from 'src/app/library/public-api';
 import { LoadingCoverService } from '../../components/loading-cover/loading-cover.service';
 import { ReaderConfigService } from '../../components/reader-config/reader-config.service';
 import { ComicsDetailService } from '../../components/comics-detail/comics-detail.service';
@@ -56,6 +56,7 @@ export class IndexComponent {
     public KeyboardEvent: KeyboardEventService,
     public GamepadToolbar: GamepadToolbarService,
     public GamepadEvent: GamepadEventService,
+    public GamepadController: GamepadControllerService,
     public ComicsSettings: ComicsSettingsService,
     public ContextMenuEvent: ContextMenuEventService,
     public filter: FilterService,
@@ -107,7 +108,42 @@ export class IndexComponent {
       this.filter.init();
     })
   }
+  key = {
+    shift: false
+  }
+  onKeyDown($event) {
+    console.log($event);
 
+    if ($event.code == "Space") {
+      this.GamepadController.device("A")
+    } else if ($event.code == "ArrowLeft") {
+      this.GamepadController.device("LEFT")
+    } else if ($event.code == "ArrowRight") {
+      this.GamepadController.device("RIGHT")
+    }
+    else if ($event.code == "ArrowDown") {
+      this.GamepadController.device("DOWN")
+    }
+    else if ($event.code == "ArrowUp") {
+      this.GamepadController.device("UP")
+    } else if ($event.code == "Tab") {
+      if (this.key.shift && $event.code == "Tab") {
+        this.GamepadController.device("UP")
+      } else {
+        this.GamepadController.device("DOWN")
+      }
+    } else if ($event.code == "ShiftLeft") {
+      this.key.shift = true;
+    }
+
+    $event.stopPropagation();
+    return false
+  }
+  onKeyUp($event) {
+    if ($event.code == "ShiftLeft") {
+      this.key.shift = false;
+    }
+  }
   on($event: MouseEvent) {
     this.current.on$.next($event)
   }
@@ -115,6 +151,7 @@ export class IndexComponent {
     this.current.close();
   }
   ngAfterViewInit() {
+    (document.querySelector("[region=page_reader]") as any).focus();
     const observer = new MutationObserver((mutationsList, observer) => {
       if (document.querySelector("img")) {
         this.is_exist_image = true;

@@ -708,7 +708,14 @@ export class MenuComponent {
     // this.data.menu[index].expanded=true;
 
   }
+  ngAfterViewInit() {
 
+    const nodes = document.querySelectorAll("[selected=true]")
+
+    if (nodes.length) {
+      (nodes[0] as any).focus();
+    }
+  }
   async openMenuSearch() {
     this.MenuSearch.open({
       position: {

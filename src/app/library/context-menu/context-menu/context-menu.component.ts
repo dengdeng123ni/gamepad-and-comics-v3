@@ -19,14 +19,40 @@ export class ContextMenuComponent implements OnInit {
     this.contextMenu.registerEvent({
       open: this.open,
       close: () => this.menu.closeMenu()
+
     });
 
 
 
   }
   onKeyDown = (event: KeyboardEvent) => {
+
     if (event.code == "ArrowRight") this.ContextMenuController.onkeydown$.next(event)
     if (event.code == "ArrowLeft") this.ContextMenuController.onkeydown$.next(event)
+    if (event.code == "Tab") {
+      event.stopPropagation();
+      //
+      const focusNextElement = () => {
+        const focusableElements = document.querySelectorAll(
+          'a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
+        );
+        const currentElement = document.activeElement;
+        const currentIndex = Array.from(focusableElements).indexOf(currentElement);
+        const nextIndex = (currentIndex + 1) % focusableElements.length;
+
+        if (["content_menu", "content_menu_submenu"].includes(focusableElements[nextIndex].getAttribute("region"))) {
+          return true
+        } else {
+          (document.querySelector("[region=content_menu]") as any).focus()
+          return false
+        }
+      }
+
+      return focusNextElement();
+
+
+    }
+    return true
   }
   ngOnInit(): void {
 

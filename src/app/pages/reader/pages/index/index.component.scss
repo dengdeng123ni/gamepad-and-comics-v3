@@ -49,6 +49,9 @@
   ._reader {
     //  background: red;
   }
+  ._reader:focus {
+    outline: none; /* 移除默认的焦点轮廓 */
+  }
 
   .bg {
     position: absolute;

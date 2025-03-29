@@ -10,18 +10,17 @@ export class ElectronService {
 
 
   async openDevTools() {
-    await window.fetch("/api/win/game/openDevTools")
+    await window.fetch("http://localhost:7799/api/win/game/openDevTools")
   }
 
   async openMainMenu() {
-    await window.fetch("/api/win/game/openMainMenu")
+    await window.fetch("http://localhost:7799/api/win/game/openMainMenu")
   }
 
   async getLoadFiles(){
     try {
-      // const res=  await window.fetch("/api/win/game/getLoadFiles")
-      // return res.json();
-      return []
+      const res=  await window.fetch("http://localhost:7799/api/win/game/getLoadFiles")
+      return res.json();
     } catch (error) {
        return []
     }
