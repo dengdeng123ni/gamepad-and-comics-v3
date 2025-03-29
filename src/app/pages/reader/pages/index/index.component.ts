@@ -38,7 +38,7 @@ export const scaleFadeAnimation = trigger('scaleFadeAnimation', [
 })
 export class IndexComponent {
   is_exist_image = false;
-  is_destroy=false;
+  is_destroy = false;
   constructor(
     public current: CurrentService,
     public data: DataService,
@@ -64,7 +64,7 @@ export class IndexComponent {
     public Prompt: PromptService,
     public ReaderNavbarBarV2: ReaderNavbarBarV2Service,
     public SettingsNineGrid: SettingsNineGridService,
-    public ContextMenuController:ContextMenuControllerService,
+    public ContextMenuController: ContextMenuControllerService,
     public RepliesPage: RepliesPageService
   ) {
     // this.SettingsNineGrid.open()
@@ -118,6 +118,7 @@ export class IndexComponent {
     shift: false
   }
   onKeyDown($event) {
+console.log($event);
 
     if ($event.code == "Space") {
       this.GamepadController.device("A")
@@ -139,12 +140,12 @@ export class IndexComponent {
       }
     } else if ($event.code == "ShiftLeft") {
       this.key.shift = true;
-    }else if($event.key=="~"){
-      if($event.target&&($event.target as any).getAttribute('content_menu_key')){
+    } else if ($event.key == "~") {
+      if ($event.target && ($event.target as any).getAttribute('content_menu_key')) {
         // this.ContextMenuController.openContextMenu(event.target as any,0,0)
         const node = $event.target as any;
-        this.ContextMenuController.openContextMenu(node, 0, 0,{
-          close:(node)=>{
+        this.ContextMenuController.openContextMenu(node, 0, 0, {
+          close: (node) => {
             node.focus();
           }
         })
@@ -163,7 +164,7 @@ export class IndexComponent {
     this.current.on$.next($event)
   }
   ngOnDestroy() {
-    this.is_destroy=true;
+    this.is_destroy = true;
     this.current.close();
   }
   ngAfterViewInit() {
@@ -176,10 +177,10 @@ export class IndexComponent {
     };
     (document.querySelector("[region=page_reader]") as any).focus();
     let observe2 = new MutationObserver(() => {
-      if(document.activeElement.getAttribute("locked_region")=="reader"){
-        if(this.is_destroy){
+      if (document.activeElement.getAttribute("locked_region") == "reader") {
+        if (this.is_destroy) {
           observe2.disconnect();
-        }else{
+        } else {
           (document.querySelector("[region=page_reader]") as any).focus();
         }
 
