@@ -473,7 +473,7 @@ export class AppComponent {
   }
   async init() {
     this.setLanguage()
-    this.WsController.init()
+    // this.WsController.init()
     await this.webCh.init();
     const obj1 = this.getAllParams(window.location.href);
     await this.configSet();

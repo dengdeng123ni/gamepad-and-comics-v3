@@ -67,7 +67,7 @@ export class DbComicsEventService {
     window._gh_source_get_event = (x) => {
       return this.Events[x]
     }
-    if (window.location.port == "4200") {
+    if (window.location.port == "42010") {
       function loadCSSFromString(cssString) {
         // 创建 <style> 元素
         const style = document.createElement('style');
