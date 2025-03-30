@@ -88,7 +88,7 @@ export class AppComponent {
   handleKeyDown = (event: KeyboardEvent) => {
     // console.log(event.target);
 
-    if(event.key=="~"){
+    if (event.key == "~"||event.key=="～") {
       if(event.target&&(event.target as any).getAttribute('content_menu_key')){
         // this.ContextMenuController.openContextMenu(event.target as any,0,0)
         const node = event.target as any;
