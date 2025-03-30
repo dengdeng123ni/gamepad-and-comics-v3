@@ -757,7 +757,12 @@ export class MenuComponent {
   onMenu(e) {
     const node = document.querySelector("[menu_key=_gh_settings]")
     const p = node.getBoundingClientRect();
-    this.ContextMenuController.openMenu(node, p.left, p.top)
+    this.ContextMenuController.openMenu(node, p.left, p.top,{
+      close:(node)=>{
+
+        if(document.body.getAttribute("keyboard"))   node.focus();
+      }
+    })
   }
 
   async getClipboardContents() {

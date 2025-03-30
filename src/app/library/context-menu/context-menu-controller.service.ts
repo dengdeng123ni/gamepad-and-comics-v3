@@ -42,7 +42,11 @@ export class ContextMenuControllerService {
 
 
   // 扩容菜单方法
-  public openMenu(node: HTMLElement | Element, x: number, y: number): void {
+  public openMenu(node: HTMLElement | Element, x: number, y: number,
+    options?:{
+      close?:Function
+    }): void {
+      if(options.close) this._close=options.close;
     this.currentNode = node;
     const key = node.getAttribute('menu_key');
     if (!key) return

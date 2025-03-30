@@ -536,10 +536,10 @@ export class ComicsListV2Component {
       }
       if (this.data.currend_read_comics_id) {
         setTimeout(() => {
-          (document.querySelector("[region=comics_item][default=true]") as any).focus();
+          if(document.body.getAttribute("keyboard")) (document.querySelector("[region=comics_item][default=true]") as any).focus();
         }, 50)
         setTimeout(() => {
-          (document.querySelector("[region=comics_item][default=true]") as any).focus();
+          if(document.body.getAttribute("keyboard"))  (document.querySelector("[region=comics_item][default=true]") as any).focus();
         }, 200)
       }
     })

@@ -84,22 +84,42 @@ export class AppComponent {
   is_tab = false;
 
   keydown = new Subject()
+
+    keyPressCount = 0;
+  timer = null;
   @HostListener('window:keydown', ['$event'])
   handleKeyDown = (event: KeyboardEvent) => {
     // console.log(event.target);
+    if(event.code=="Tab"){
+      this.keyPressCount++;
 
-    if (event.key == "~"||event.key=="～") {
-      if(event.target&&(event.target as any).getAttribute('content_menu_key')){
-        // this.ContextMenuController.openContextMenu(event.target as any,0,0)
-        const node = event.target as any;
-        const currentPosition =node.getBoundingClientRect();
-        let x = parseInt(currentPosition.x + currentPosition.width * 0.7)
-        let y = parseInt(currentPosition.y + currentPosition.height * 0.7)
-        this.ContextMenuController.openContextMenu(node, x, y,{
-          close:(node)=>{
-            node.focus();
-          }
-        })
+      if (!this.timer) {
+        this.timer = setTimeout(() => {
+          this.keyPressCount = 0;
+          this.timer = null;
+        }, 1000);
+      }
+
+      if (this.keyPressCount >= 3) {
+        document.body.setAttribute("keyboard","true")
+
+        clearTimeout(this.timer);
+        this.keyPressCount = 0;
+        this.timer = null;
+      }
+      if (event.key == "~"||event.key=="～") {
+        if(event.target&&(event.target as any).getAttribute('content_menu_key')){
+          // this.ContextMenuController.openContextMenu(event.target as any,0,0)
+          const node = event.target as any;
+          const currentPosition =node.getBoundingClientRect();
+          let x = parseInt(currentPosition.x + currentPosition.width * 0.7)
+          let y = parseInt(currentPosition.y + currentPosition.height * 0.7)
+          this.ContextMenuController.openContextMenu(node, x, y,{
+            close:(node)=>{
+              if(document.body.getAttribute("keyboard")) node.focus();
+            }
+          })
+        }
       }
     }
 

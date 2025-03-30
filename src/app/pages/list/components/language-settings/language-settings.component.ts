@@ -8,19 +8,23 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './language-settings.component.html',
   styleUrls: ['./language-settings.component.scss']
 })
-export class LanguageSettingsComponent  {
+export class LanguageSettingsComponent {
 
   constructor(
-    public anguageSettings:LanguageSettingsService,
-    public I18n:I18nService,
+    public anguageSettings: LanguageSettingsService,
+    public I18n: I18nService,
     private translate: TranslateService,
 
     private http: HttpClient) { }
 
   ngAfterViewInit() {
+    const nodes = document.querySelectorAll("[region=language_setting][select=true]")
 
+    if (nodes.length) {
+      (nodes[0] as any).focus();
+    }
   }
-  async use(language){
+  async use(language) {
     localStorage.setItem('is_first_settngs_language', 'true')
     this.I18n.setDefaultLang(language)
   }
