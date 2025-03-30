@@ -1,4 +1,4 @@
-<div class="list">
+<div class="list"  (keydown)="onKeyDown($event)">
   <button mat-button [attr.region]="'menu_input'" class="menu_input" [attr.default]="false"  (click)="openMenuSearch()">
     <mat-icon class="icon" style="color: rgba(255, 255, 255, 0.34);">search</mat-icon>
     <div class="name" style="color: rgba(255, 255, 255, 0.34);" >

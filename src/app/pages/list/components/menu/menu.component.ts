@@ -708,6 +708,11 @@ export class MenuComponent {
     // this.data.menu[index].expanded=true;
 
   }
+  onKeyDown($event){
+    if("Escape"==$event.key){
+      $event.stopPropagation();
+    }
+  }
   ngAfterViewInit() {
 
     const nodes = document.querySelectorAll("[selected=true]")
