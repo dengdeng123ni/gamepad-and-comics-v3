@@ -64,7 +64,7 @@ export class ComicsListV2Component {
   query = {
     id: "",
     default_index: 0,
-    double_choice_index:[0,0],
+    double_choice_index: [0, 0],
     list: [],
     name: ""
   }
@@ -102,13 +102,13 @@ export class ComicsListV2Component {
     private _snackBar: MatSnackBar,
     public DownloadOption: DownloadOptionService,
     public ListMenuController: ListMenuControllerService,
-     public ListMenuEvent: ListMenuEventService,
+    public ListMenuEvent: ListMenuEventService,
     public App: AppDataService,
     public platform: Platform,
     public prompt: PromptService,
     public AdvancedSearch: AdvancedSearchService,
     public FavoritesPage: FavoritesPageService,
-    public ComicsListConfig:ComicsListConfigService,
+    public ComicsListConfig: ComicsListConfigService,
     public LocalCach: LocalCachService,
 
   ) {
@@ -135,7 +135,7 @@ export class ComicsListV2Component {
         url.searchParams.delete('gh_data');
         window.history.pushState({}, '', url);
 
-      }else if(this.params?._gh_condition){
+      } else if (this.params?._gh_condition) {
         const url = new URL(window.location.href);
         url.searchParams.delete('_gh_condition');
         window.history.pushState({}, '', url);
@@ -153,17 +153,17 @@ export class ComicsListV2Component {
       const sid = params.get('pid')
       if (!source) source = type;
 
-      if(type=="custom"){
+      if (type == "custom") {
 
         this.id = `${type}_${source}_${sid}`;
         this.key = this.id;
-        const arr=this.ListMenuEvent.Content[source]
-        const obj=arr.find(x=>x.id==sid)
-        this.type=obj.query.type;
+        const arr = this.ListMenuEvent.Content[source]
+        const obj = arr.find(x => x.id == sid)
+        this.type = obj.query.type;
 
         if (obj.query.conditions) {
           this.query.list = obj.query.conditions;
-          if(obj.query.updateConditions) this.query.list = await obj.query.updateConditions();
+          if (obj.query.updateConditions) this.query.list = await obj.query.updateConditions();
 
         }
         if (obj.query.name) this.query.name = obj.query.name;
@@ -176,28 +176,28 @@ export class ComicsListV2Component {
           page_size: 20
         }, {
           Add: async (json) => {
-            const res= await obj.getList({ ...this.query_option, ...json })
+            const res = await obj.getList({ ...this.query_option, ...json })
             return res
           },
           Init: async (json) => {
-            const res= await obj.getList({ ...this.query_option, ...json })
+            const res = await obj.getList({ ...this.query_option, ...json })
             return res
           },
-          Click: async(json)=>{
+          Click: async (json) => {
             return await obj.query.click(json)
 
           }
         })
         this.source = null;
-        if(obj&&(obj as any).source){
+        if (obj && (obj as any).source) {
           this.App.setsource((obj as any).source)
 
 
-        }else{
+        } else {
           this.App.setsource(null)
         }
 
-      }else{
+      } else {
         this.source = source;
         this.type = type;
         this.App.setsource(source)
@@ -385,14 +385,14 @@ export class ComicsListV2Component {
           }
         })
       } else if (sid) {
-        if(type!="custom") {
+        if (type != "custom") {
           this.menu_id = sid;
           this.source = source;
           const obj = this.DbComicsEvent.Configs[source].menu.find(x => x.id == sid);
           this.id = `${type}_${source}_${sid}`;
           if (obj.query.conditions) {
             this.query.list = obj.query.conditions;
-            if(obj.query.updateConditions) this.query.list = await obj.query.updateConditions();
+            if (obj.query.updateConditions) this.query.list = await obj.query.updateConditions();
           }
           if (obj.query.name) this.query.name = obj.query.name;
           else this.query.name = ''
@@ -435,9 +435,9 @@ export class ComicsListV2Component {
 
       const data: any = await this.get(this.id);
 
-      if(this.ListNode&&this.ListNode.nativeElement) this.ListNode.nativeElement.style = "opacity: 0;"
+      if (this.ListNode && this.ListNode.nativeElement) this.ListNode.nativeElement.style = "opacity: 0;"
       setTimeout(() => {
-        if(this.ListNode&&this.ListNode.nativeElement)  this.ListNode.nativeElement.style = ""
+        if (this.ListNode && this.ListNode.nativeElement) this.ListNode.nativeElement.style = ""
       }, 800)
       if (this.params._gh_condition) {
         let obj = {};
@@ -460,13 +460,13 @@ export class ComicsListV2Component {
         } else if (this.type == "choice") {
           this.query.default_index = data.query.default_index;
           this.list = data.list;
-        }else if (this.type == "double_choice") {
+        } else if (this.type == "double_choice") {
           this.double_choice_query();
           this.list = data.list;
           this.query.double_choice_index = data.query.double_choice_index;
         } else if (this.type == "advanced_search") {
           let obj = {};
-         if(type=="custom")   this.query.list=data.query.list;
+          if (type == "custom") this.query.list = data.query.list;
           for (let index = 0; index < this.query.list.length; index++) {
             const c = this.query.list[index]
             if (c.value) obj[c.id] = c.value
@@ -500,12 +500,12 @@ export class ComicsListV2Component {
 
         function isTablet() {
           const userAgent = navigator.userAgent.toLowerCase();
-            /ipad|tablet|android(?!.*mobile)/.test(userAgent);
+          /ipad|tablet|android(?!.*mobile)/.test(userAgent);
         }
         this.zone.run(() => {
           setTimeout(() => {
             this.ListNode.nativeElement.scrollTop = data.scrollTop;
-            if(this.ListNode&&this.ListNode.nativeElement)   this.ListNode.nativeElement.style = ""
+            if (this.ListNode && this.ListNode.nativeElement) this.ListNode.nativeElement.style = ""
             this.overflow()
           })
         })
@@ -515,18 +515,18 @@ export class ComicsListV2Component {
       } else {
 
 
-        if(this.ListNode&&this.ListNode.nativeElement)  this.ListNode.nativeElement.style = ""
+        if (this.ListNode && this.ListNode.nativeElement) this.ListNode.nativeElement.style = ""
         if (this.type == "multipy") {
-          this.query.list.forEach(x=>{
-            x.tag.forEach((x,i)=>{
-              x.index=i
+          this.query.list.forEach(x => {
+            x.tag.forEach((x, i) => {
+              x.index = i
             })
           })
           this.getDatac123123();
           this.init();
         } else if (this.type == "choice") {
           this.init();
-        }else if(this.type=="double_choice"){
+        } else if (this.type == "double_choice") {
           this.double_choice_query();
           this.init();
         } else {
@@ -534,7 +534,14 @@ export class ComicsListV2Component {
         }
 
       }
-
+      if (this.data.currend_read_comics_id) {
+        setTimeout(() => {
+          (document.querySelector("[region=comics_item][default=true]") as any).focus();
+        }, 50)
+        setTimeout(() => {
+          (document.querySelector("[region=comics_item][default=true]") as any).focus();
+        }, 200)
+      }
     })
 
     ContextMenuEvent.register('comics_item', {
@@ -620,7 +627,7 @@ export class ComicsListV2Component {
           id: "edit",
           name: "点击后跳转",
           click: e => {
-           this.ComicsListConfig.open();
+            this.ComicsListConfig.open();
           }
         }
       ]
@@ -785,11 +792,11 @@ export class ComicsListV2Component {
       if (this.data.is_edit || this._ctrl) {
         this.list[index].selected = !this.list[index].selected;
       } else {
-        if(this.ComicsListV2.Events[this.key].Click){
-          this.data.currend_read_comics_id=data.id;
+        if (this.ComicsListV2.Events[this.key].Click) {
+          this.data.currend_read_comics_id = data.id;
           await this.ComicsListV2.Events[this.key].Click({
-            PointerEvent:$event,
-            data:data
+            PointerEvent: $event,
+            data: data
           })
           return
         }
@@ -837,24 +844,24 @@ export class ComicsListV2Component {
     this.list = await this.ComicsListV2.init(this.key, { page_num: this.page_num });
   }
 
-  async double_choice_on(index){
+  async double_choice_on(index) {
 
-    let option= this.query.list[this.query.double_choice_index[0]].options[this.query.double_choice_index[1]]
+    let option = this.query.list[this.query.double_choice_index[0]].options[this.query.double_choice_index[1]]
 
-    this.query.double_choice_index[0]=index;
+    this.query.double_choice_index[0] = index;
 
-    if(this.query.list[this.query.double_choice_index[0]].options){
-      const index=this.query.list[this.query.double_choice_index[0]].options.findIndex((x,i)=>x.label==option.label);
-      if(index>-1){
-        this.query.double_choice_index[1]=index
-      }else{
-        this.query.double_choice_index[1]=0
+    if (this.query.list[this.query.double_choice_index[0]].options) {
+      const index = this.query.list[this.query.double_choice_index[0]].options.findIndex((x, i) => x.label == option.label);
+      if (index > -1) {
+        this.query.double_choice_index[1] = index
+      } else {
+        this.query.double_choice_index[1] = 0
       }
     }
 
-    let obj= this.query.list[this.query.double_choice_index[0]]
-    obj.option=obj.options[this.query.double_choice_index[1]]
-    obj= JSON.parse(JSON.stringify(obj))
+    let obj = this.query.list[this.query.double_choice_index[0]]
+    obj.option = obj.options[this.query.double_choice_index[1]]
+    obj = JSON.parse(JSON.stringify(obj))
     delete obj.options
     this.query_option = {
       menu_id: this.menu_id,
@@ -865,11 +872,11 @@ export class ComicsListV2Component {
     this.list = await this.ComicsListV2.init(this.key, { page_num: this.page_num });
   }
 
-  async double_choice_on2(index){
-    this.query.double_choice_index[1]=index;
-    let obj= this.query.list[this.query.double_choice_index[0]]
-    obj.option=obj.options[this.query.double_choice_index[1]]
-    obj= JSON.parse(JSON.stringify(obj))
+  async double_choice_on2(index) {
+    this.query.double_choice_index[1] = index;
+    let obj = this.query.list[this.query.double_choice_index[0]]
+    obj.option = obj.options[this.query.double_choice_index[1]]
+    obj = JSON.parse(JSON.stringify(obj))
     delete obj.options
     this.query_option = {
       menu_id: this.menu_id,
@@ -879,10 +886,10 @@ export class ComicsListV2Component {
     this.ListNode.nativeElement.scrollTop = 0;
     this.list = await this.ComicsListV2.init(this.key, { page_num: this.page_num });
   }
-  async double_choice_query(){
-    let obj= this.query.list[this.query.double_choice_index[0]]
-    obj.option=obj.options[this.query.double_choice_index[1]]
-    obj= JSON.parse(JSON.stringify(obj))
+  async double_choice_query() {
+    let obj = this.query.list[this.query.double_choice_index[0]]
+    obj.option = obj.options[this.query.double_choice_index[1]]
+    obj = JSON.parse(JSON.stringify(obj))
     delete obj.options
     this.query_option = {
       menu_id: this.menu_id,
@@ -898,7 +905,7 @@ export class ComicsListV2Component {
     const y = position.bottom + 10;
 
     const ic = await this.ComicsSelectType.getType(e.tag, index, { position: { top: `${y}px`, left: `${x}px` } }) as any
-    if(ic>-1){
+    if (ic > -1) {
       this.query.list[index].index = ic;
 
       this.getDatac123123();
@@ -917,9 +924,9 @@ export class ComicsListV2Component {
     this.query_option = {
       menu_id: this.menu_id
     };
-    this.page_num=1;
-    list.forEach(x=>{
-      this.query_option[x.key]=x.tag;
+    this.page_num = 1;
+    list.forEach(x => {
+      this.query_option[x.key] = x.tag;
     })
 
 
@@ -960,7 +967,6 @@ export class ComicsListV2Component {
 
 
   }
-
 
 
   async init() {
