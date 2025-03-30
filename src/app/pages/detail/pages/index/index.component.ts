@@ -24,18 +24,18 @@ export class IndexComponent {
     public index: IndexService,
     public route: ActivatedRoute,
     public AppData: AppDataService,
-    public GamepadEvent:GamepadEventService,
+    public GamepadEvent: GamepadEventService,
     public KeyboardToolbar: KeyboardToolbarService,
     public KeyboardEvent: KeyboardEventService,
-    public GamepadToolbar:GamepadToolbarService,
-    public TouchmoveEvent:TouchmoveEventService,
+    public GamepadToolbar: GamepadToolbarService,
+    public TouchmoveEvent: TouchmoveEventService,
     public platform: Platform,
     public menu: MenuService
   ) {
-    this.has_backdrop= (window.innerWidth < 480 && (platform.ANDROID || platform.IOS))
+    this.has_backdrop = (window.innerWidth < 480 && (platform.ANDROID || platform.IOS))
     //
     this.GamepadEvent.registerGlobalEvent({
-      LEFT_ANALOG_PRESS:()=>{
+      LEFT_ANALOG_PRESS: () => {
         this.KeyboardToolbar.isToggle()
       }
     })
@@ -59,13 +59,13 @@ export class IndexComponent {
       }
     })
     document.body.setAttribute("router", "detail")
-    document.body.setAttribute("locked_region",document.body.getAttribute("router"))
+    document.body.setAttribute("locked_region", document.body.getAttribute("router"))
 
-    TouchmoveEvent.register('detail',{
-      LEFT:()=>{
+    TouchmoveEvent.register('detail', {
+      LEFT: () => {
         this.menu.opened = true;
       },
-      RIGHT:()=>{
+      RIGHT: () => {
         this.menu.opened = false;
       },
     })
@@ -86,7 +86,7 @@ export class IndexComponent {
 
   on($event) {
     // if ($event.pointerId < 0) return
-    if($event.clientX==0&&$event.clientY==0) return
+    if ($event.clientX == 0 && $event.clientY == 0) return
     if ($event.clientX < 72 && $event.clientY < 72) {
       (document.querySelector("#back") as any).click()
     } else {
@@ -98,7 +98,18 @@ export class IndexComponent {
   on_list($event: HTMLElement) {
 
   }
+  onKeyDown($event) {
+    if ($event.code == "Escape") {
+      window.history.back()
+      $event.stopPropagation();
+      return false
+    }
 
+    return true
+  }
+  onKeyUp($event) {
+
+  }
   on_item(e: { $event: HTMLElement, data: any }) {
     const $event = e.$event;
     const data = e.data;

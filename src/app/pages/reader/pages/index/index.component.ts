@@ -118,28 +118,44 @@ export class IndexComponent {
     shift: false
   }
   onKeyDown($event) {
-console.log($event);
+    // console.log($event);
 
-    if ($event.code == "Space") {
+    if ($event.code == "Space" || $event.code == "Enter") {
       this.GamepadController.device("A")
+      $event.stopPropagation();
+      return false
     } else if ($event.code == "ArrowLeft") {
       this.GamepadController.device("LEFT")
+      $event.stopPropagation();
+      return false
     } else if ($event.code == "ArrowRight") {
       this.GamepadController.device("RIGHT")
+      $event.stopPropagation();
+      return false
     }
     else if ($event.code == "ArrowDown") {
       this.GamepadController.device("DOWN")
+      $event.stopPropagation();
+      return false
     }
     else if ($event.code == "ArrowUp") {
       this.GamepadController.device("UP")
+      $event.stopPropagation();
+      return false
     } else if ($event.code == "Tab") {
       if (this.key.shift && $event.code == "Tab") {
         this.GamepadController.device("UP")
+        $event.stopPropagation();
+        return false
       } else {
         this.GamepadController.device("DOWN")
+        $event.stopPropagation();
+        return false
       }
     } else if ($event.code == "ShiftLeft") {
       this.key.shift = true;
+      $event.stopPropagation();
+      return false
     } else if ($event.key == "~") {
       if ($event.target && ($event.target as any).getAttribute('content_menu_key')) {
         // this.ContextMenuController.openContextMenu(event.target as any,0,0)
@@ -149,11 +165,17 @@ console.log($event);
             node.focus();
           }
         })
+        $event.stopPropagation();
+        return false
       }
+
+    } else if ($event.code == "Escape") {
+      window.history.back()
+      $event.stopPropagation();
+      return false
     }
 
-    $event.stopPropagation();
-    return false
+    return true
   }
   onKeyUp($event) {
     if ($event.code == "ShiftLeft") {

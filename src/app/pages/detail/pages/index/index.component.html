@@ -1,4 +1,4 @@
-<mat-drawer-container autosize [hasBackdrop]="has_backdrop" (click)="on($event)"  >
+<mat-drawer-container autosize [hasBackdrop]="has_backdrop" (click)="on($event)"  (keydown)="onKeyDown($event)" (keyup)="onKeyUp($event)">
   <!-- <mat-drawer style="
   border: 1px solid;
   border-radius: 4px;
