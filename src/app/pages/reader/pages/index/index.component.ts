@@ -156,8 +156,8 @@ export class IndexComponent {
       this.key.shift = true;
       $event.stopPropagation();
       return false
-    } else if ($event.key == "~") {
-      if ($event.target && ($event.target as any).getAttribute('content_menu_key')) {
+    } else if ($event.key == "~"||$event.key=="～") {
+      if ($event.target && ($event.target as any).getAttribute('content_menu_key')=="comics_reader") {
         // this.ContextMenuController.openContextMenu(event.target as any,0,0)
         const node = $event.target as any;
         this.ContextMenuController.openContextMenu(node, 0, 0, {
