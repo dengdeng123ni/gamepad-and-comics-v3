@@ -24,7 +24,7 @@
 
 ## 🌟 支持
 
-支持作者：[Steam 商店页面](https://store.steampowered.com/app/2070500/Gamepad_and_Comics/)
+支持作者：[Steam 商店页面](https://store.steampowered.com/app/3615700/Gamepad_and_Comics/)
 
 ---
 

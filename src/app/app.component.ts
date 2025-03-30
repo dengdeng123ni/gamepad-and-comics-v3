@@ -470,6 +470,7 @@ export class AppComponent {
       console.log(error);
 
     }
+
   }
   async init() {
     this.setLanguage()

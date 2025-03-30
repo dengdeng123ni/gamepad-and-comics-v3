@@ -67,7 +67,7 @@ export class DbComicsEventService {
     window._gh_source_get_event = (x) => {
       return this.Events[x]
     }
-    if (window.location.port == "42010") {
+    if (window.location.port == "4200") {
       function loadCSSFromString(cssString) {
         // 创建 <style> 元素
         const style = document.createElement('style');
@@ -2659,7 +2659,7 @@ body[source=kaobei] app-comics-list-v2 [region=comics_item]{
       });
       window._gh_comics_register({
         id: "kaobei",
-        name: "拷贝漫画",
+        name: "漫画",
         href: "https://www.mangacopy.com/",
         is_cache: true,
         is_download: true,

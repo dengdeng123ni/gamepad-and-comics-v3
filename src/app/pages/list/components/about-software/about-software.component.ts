@@ -46,7 +46,7 @@ export class AboutSoftwareComponent {
   }
 
   open2() {
-    window.open('https://store.steampowered.com/app/2070500/Gamepad_and_Comics/')
+    window.open('https://store.steampowered.com/app/3615700/Gamepad_and_Comics/')
 
   }
   open3() {
